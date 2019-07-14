@@ -1,10 +1,9 @@
 import board.BoardInfo;
 
 public class GameInstance {
-    private BoardInfo board;
+    private BoardInfo boardInfo;
 
     public GameInstance() {
-        this.board = new BoardInfo();
-        board.initialPositions();
+        this.boardInfo = new BoardInfo();
     }
 }
