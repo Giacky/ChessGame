@@ -1,31 +1,51 @@
 package board;
 
-import utility.Player;
+import utility.PlayerColor;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 
 public enum Piece {
-    QUEEN_W(Player.WHITE),
-    BISHOP_W(Player.WHITE),
-    KING_W(Player.WHITE),
-    KNIGHT_W(Player.WHITE),
-    PAWN_W(Player.WHITE),
-    ROOK_W(Player.WHITE),
-    QUEEN_B(Player.BLACK),
-    BISHOP_B(Player.BLACK),
-    KING_B(Player.BLACK),
-    KNIGHT_B(Player.BLACK),
-    PAWN_B(Player.BLACK),
-    ROOK_B(Player.BLACK);
+//    QUEEN_W(PlayerColor.WHITE, new ImageIcon("assets/queen_white.png")),
+//    BISHOP_W(PlayerColor.WHITE, new ImageIcon("assets/bishop_white.png")),
+//    KING_W(PlayerColor.WHITE, new ImageIcon("assets/king_white.png")),
+//    KNIGHT_W(PlayerColor.WHITE, new ImageIcon("assets/knight_white.png")),
+//    PAWN_W(PlayerColor.WHITE, new ImageIcon("assets/pawn_white.png")),
+//    ROOK_W(PlayerColor.WHITE, new ImageIcon("assets/rook_white.png")),
+//    QUEEN_B(PlayerColor.BLACK, new ImageIcon("assets/queen_black.png")),
+//    BISHOP_B(PlayerColor.BLACK, new ImageIcon("assets/bishop_black.png")),
+//    KING_B(PlayerColor.BLACK, new ImageIcon("assets/king_black.png")),
+//    KNIGHT_B(PlayerColor.BLACK, new ImageIcon("assets/knight_black.png")),
+//    PAWN_B(PlayerColor.BLACK, new ImageIcon("assets/pawn_black.png")),
+//    ROOK_B(PlayerColor.BLACK, new ImageIcon("assets/rook_black.png"));
 
-    private Image texture;
-    private Player player;
+    QUEEN_W(PlayerColor.WHITE, new ImageIcon("assets/queen_white.png")),
+    BISHOP_W(PlayerColor.WHITE, new ImageIcon("assets/bishop_white.png")),
+    KING_W(PlayerColor.WHITE, new ImageIcon("assets/king_white.png")),
+    KNIGHT_W(PlayerColor.WHITE, new ImageIcon("assets/knight_white.png")),
+    PAWN_W(PlayerColor.WHITE, new ImageIcon("assets/pawn_white.png")),
+    ROOK_W(PlayerColor.WHITE, new ImageIcon("assets/rook_white.png")),
+    QUEEN_B(PlayerColor.BLACK, new ImageIcon("assets/queen_black.png")),
+    BISHOP_B(PlayerColor.BLACK, new ImageIcon("assets/bishop_black.png")),
+    KING_B(PlayerColor.BLACK, new ImageIcon("assets/king_black.png")),
+    KNIGHT_B(PlayerColor.BLACK, new ImageIcon("assets/knight_black.png")),
+    PAWN_B(PlayerColor.BLACK, new ImageIcon("assets/pawn_black.png")),
+    ROOK_B(PlayerColor.BLACK, new ImageIcon("assets/rook_black.png"));
 
-    Piece(Player player) {
-        this.player = player;
+    private PlayerColor playerColor;
+    private ImageIcon imageIcon;
+
+    Piece(PlayerColor playerColor, ImageIcon imageIcon) {
+        this.playerColor = playerColor;
     }
 
-    public Player getPlayer() {
-        return player;
+    public PlayerColor getPlayerColor() {
+        return playerColor;
+    }
+
+    public ImageIcon getImageIcon() {
+        return imageIcon;
     }
 }

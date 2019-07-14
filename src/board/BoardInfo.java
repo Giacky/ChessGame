@@ -1,20 +1,20 @@
 package board;
 
 import utility.Move;
-import utility.Player;
+import utility.PlayerColor;
 import utility.Point;
 
 import java.util.ArrayList;
 
 public class BoardInfo {
     private Piece[][] board;
-    private Player playerTurn;
+    private PlayerColor playerColorTurn;
     private int turnCount;
     private ArrayList<Point> whitePieces;
     private ArrayList<Point> blackPieces;
 
     public BoardInfo(BoardInfo previousBoardInfo, Move move) {
-        this.playerTurn = oppositePlayer(previousBoardInfo.getPlayerTurn());
+        this.playerColorTurn = oppositePlayer(previousBoardInfo.getPlayerColorTurn());
         turnCount = previousBoardInfo.getTurnCount() + 1;
         whitePieces = new ArrayList<>();
         blackPieces = new ArrayList<>();
@@ -33,7 +33,7 @@ public class BoardInfo {
 
     public BoardInfo() {
         board = new Piece[8][8];
-        playerTurn = Player.WHITE;
+        playerColorTurn = PlayerColor.WHITE;
         turnCount = 1;
         whitePieces = new ArrayList<>();
         blackPieces = new ArrayList<>();
@@ -80,7 +80,7 @@ public class BoardInfo {
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 if (board[x][y] != null) {
-                    if (board[x][y].getPlayer() == Player.WHITE) {
+                    if (board[x][y].getPlayerColor() == PlayerColor.WHITE) {
                         whitePieces.add(new Point(x, y));
                     } else {
                         blackPieces.add(new Point(x, y));
@@ -105,7 +105,7 @@ public class BoardInfo {
                     if (dx!=0 && dy!=0) {
                         Point newPosition = new Point(position);
                         newPosition.moveBy(dx, dy);
-                        if (newPosition.x >= 0 && newPosition.y >= 0 && newPosition.x < 8 && newPosition.y < 8 && board[newPosition.x][newPosition.y].getPlayer() != playerTurn) {
+                        if (newPosition.x >= 0 && newPosition.y >= 0 && newPosition.x < 8 && newPosition.y < 8 && board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
                             possibleMoves.add(new Move(position, newPosition));
                         }
                     }
@@ -118,12 +118,12 @@ public class BoardInfo {
                 for (int j = -2; j < 3; j+=4) {
                     Point newPosition = new Point(position);
                     newPosition.moveBy(i, j);
-                    if (newPosition.x >= 0 && newPosition.y >= 0 && newPosition.x < 8 && newPosition.y < 8 && board[newPosition.x][newPosition.y].getPlayer() != playerTurn) {
+                    if (newPosition.x >= 0 && newPosition.y >= 0 && newPosition.x < 8 && newPosition.y < 8 && board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
                         possibleMoves.add(new Move(position, newPosition));
                     }
                     newPosition = new Point(position);
                     newPosition.moveBy(j, i);
-                    if (newPosition.x >= 0 && newPosition.y >= 0 && newPosition.x < 8 && newPosition.y < 8 && board[newPosition.x][newPosition.y].getPlayer() != playerTurn) {
+                    if (newPosition.x >= 0 && newPosition.y >= 0 && newPosition.x < 8 && newPosition.y < 8 && board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
                         possibleMoves.add(new Move(position, newPosition));
                     }
                 }
@@ -139,7 +139,7 @@ public class BoardInfo {
         }
 
         else if ((piece == Piece.PAWN_W || piece == Piece.PAWN_B)) { //Pawn
-            if (playerTurn == Player.WHITE) {
+            if (playerColorTurn == PlayerColor.WHITE) {
                 if (position.y == 1) {
                     for (int dy = 1; dy < 3; dy++) {
                         Point newPosition = new Point(position);
@@ -155,7 +155,7 @@ public class BoardInfo {
                 for (int dx = -1; dx < 2; dx+=2) {
                     Point newPosition = new Point(position);
                     newPosition.moveBy(dx, 1);
-                    if (board[newPosition.x][newPosition.y].getPlayer() != playerTurn) {
+                    if (board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
                         possibleMoves.add(new Move(position, newPosition));
                     }
                 }
@@ -175,7 +175,7 @@ public class BoardInfo {
                 for (int dx = -1; dx < 2; dx+=2) {
                     Point newPosition = new Point(position);
                     newPosition.moveBy(dx, -1);
-                    if (board[newPosition.x][newPosition.y].getPlayer() != playerTurn) {
+                    if (board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
                         possibleMoves.add(new Move(position, newPosition));
                     }
                 }
@@ -188,7 +188,7 @@ public class BoardInfo {
     public ArrayList<Move> allPossibleMoves() {
         ArrayList<Move> possibleMoves = new ArrayList<>();
         ArrayList<Point> movablePieces;
-        if (playerTurn == Player.WHITE) {
+        if (playerColorTurn == PlayerColor.WHITE) {
             movablePieces = whitePieces;
         } else {
             movablePieces = blackPieces;
@@ -211,7 +211,7 @@ public class BoardInfo {
                         if (newPosition.x >= 0) {
                             if (board[newPosition.x][newPosition.y] == null) {
                                 possibleMoves.add(new Move(position, newPosition));
-                            } else if (board[newPosition.x][newPosition.y].getPlayer() != playerTurn) {
+                            } else if (board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
                                 possibleMoves.add(new Move(position, newPosition));
                                 break;
                             } else {
@@ -237,12 +237,12 @@ public class BoardInfo {
         this.board = board;
     }
 
-    public Player getPlayerTurn() {
-        return playerTurn;
+    public PlayerColor getPlayerColorTurn() {
+        return playerColorTurn;
     }
 
-    public void setPlayerTurn(Player playerTurn) {
-        this.playerTurn = playerTurn;
+    public void setPlayerColorTurn(PlayerColor playerColorTurn) {
+        this.playerColorTurn = playerColorTurn;
     }
 
     public int getTurnCount() {
@@ -255,12 +255,12 @@ public class BoardInfo {
 
 
 
-    private static Player oppositePlayer(Player player) {
-        switch (player) {
+    private static PlayerColor oppositePlayer(PlayerColor playerColor) {
+        switch (playerColor) {
             case WHITE:
-                return Player.BLACK;
+                return PlayerColor.BLACK;
             default:
-                return Player.WHITE;
+                return PlayerColor.WHITE;
         }
     }
 }

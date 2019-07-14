@@ -1,6 +1,6 @@
 package utility;
 
-public enum Player {
+public enum PlayerColor {
     WHITE,
     BLACK
 }

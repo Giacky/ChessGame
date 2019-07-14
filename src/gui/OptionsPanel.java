@@ -13,8 +13,8 @@ public class OptionsPanel extends JPanel {
 
         setBorder(BorderFactory.createTitledBorder("Options"));
 
-        JLabel whiteLabel = new JLabel("White Player:");
-        JLabel blackLabel = new JLabel("Black Player:");
+        JLabel whiteLabel = new JLabel("White PlayerColor:");
+        JLabel blackLabel = new JLabel("Black PlayerColor:");
         JLabel whitePlayerLabel = new JLabel("player1");
         JLabel blackPlayerLabel = new JLabel("player2");
 

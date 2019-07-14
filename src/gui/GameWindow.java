@@ -1,13 +1,13 @@
 package gui;
 
+import game.GameInstance;
+
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class GameWindow extends JFrame{
 
-    public GameWindow() {
+    public GameWindow(GameInstance gameInstance) {
         super("Chess Game");
         setSize(1000,800);
         setResizable(false);
@@ -15,7 +15,7 @@ public class GameWindow extends JFrame{
 
         setLayout(new BorderLayout());
 
-        ChessBoardPanel chessBoardPanel = new ChessBoardPanel();
+        ChessBoardPanel chessBoardPanel = new ChessBoardPanel(gameInstance.getBoardInfo());
         OptionsPanel optionsPanel = new OptionsPanel();
 
         Container container = getContentPane();
@@ -23,9 +23,7 @@ public class GameWindow extends JFrame{
         container.add(chessBoardPanel, BorderLayout.WEST);
         container.add(optionsPanel, BorderLayout.EAST);
 
-
-
-
         setVisible(true);
     }
+
 }

@@ -1,15 +1,19 @@
 package gui;
 
+import board.BoardInfo;
+import board.Piece;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class ChessBoardPanel extends JPanel {
-    public ChessBoardPanel() {
+    public ChessBoardPanel(BoardInfo boardInfo) {
         Dimension panelSize = getPreferredSize();
         panelSize.width = 800;
         setPreferredSize(panelSize);
-
-        JPanel[][] tiles = new JPanel[8][8];
+        Piece[][] board = boardInfo.getBoard();
+        int lol = 0;
+//        JPanel[][] tiles = new JPanel[8][8];
 
         setLayout(new GridLayout(8, 8));
 
@@ -24,8 +28,14 @@ public class ChessBoardPanel extends JPanel {
                 } else {
                     tile.setBackground(new Color(137, 98,81));
                 }
+
+                if (board[x][7-y] != null) {
+                    JLabel pieceIcon = new JLabel(board[x][7-y].getImageIcon());
+                    tile.add(pieceIcon);
+                    System.out.println(lol++);
+                }
                 add(tile);
-                tiles[x][y] = tile;
+//                tiles[x][y] = tile;
             }
         }
 
