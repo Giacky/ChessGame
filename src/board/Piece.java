@@ -1,53 +1,31 @@
 package board;
 
-import utility.Move;
 import utility.Player;
-import utility.Point;
 
 import java.awt.*;
-import java.util.ArrayList;
 
-public abstract class Piece {
-    private Player player;
+public enum Piece {
+    QUEEN_W(Player.WHITE),
+    BISHOP_W(Player.WHITE),
+    KING_W(Player.WHITE),
+    KNIGHT_W(Player.WHITE),
+    PAWN_W(Player.WHITE),
+    ROOK_W(Player.WHITE),
+    QUEEN_B(Player.BLACK),
+    BISHOP_B(Player.BLACK),
+    KING_B(Player.BLACK),
+    KNIGHT_B(Player.BLACK),
+    PAWN_B(Player.BLACK),
+    ROOK_B(Player.BLACK);
+
     private Image texture;
-    private PieceType type;
-    private Point position; //(0, 0) bottom left
+    private Player player;
 
-    public Piece(Player player, Point position, PieceType type) {
+    Piece(Player player) {
         this.player = player;
-        this.type = type;
-        this.position = position;
-    }
-
-    public PieceType getType() {
-        return type;
     }
 
     public Player getPlayer() {
         return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
-
-    public Point getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point position) {
-        this.position = position;
-    }
-
-    public Image getTexture() {
-        return texture;
-    }
-
-    public void setTexture(Image texture) {
-        this.texture = texture;
-    }
-
-    public void setType(PieceType type) {
-        this.type = type;
     }
 }

@@ -1,10 +1,10 @@
-import board.Board;
+import board.BoardInfo;
 
 public class GameInstance {
-    private Board board;
+    private BoardInfo board;
 
     public GameInstance() {
-        this.board = new Board();
+        this.board = new BoardInfo();
         board.initialPositions();
     }
 }
