@@ -41,7 +41,7 @@ public class BoardInfo {
         //White player
         board[0][0] = Piece.ROOK_W;
         board[1][0] = Piece.KNIGHT_W;
-        board[2][0] = Piece.KNIGHT_W;
+        board[2][0] = Piece.BISHOP_W;
         board[3][0] = Piece.QUEEN_W;
         board[4][0] = Piece.KING_W;
         board[5][0] = Piece.BISHOP_W;
@@ -59,7 +59,7 @@ public class BoardInfo {
         //Black player
         board[0][7] = Piece.ROOK_B;
         board[1][7] = Piece.KNIGHT_B;
-        board[2][7] = Piece.KNIGHT_B;
+        board[2][7] = Piece.BISHOP_B;
         board[3][7] = Piece.QUEEN_B;
         board[4][7] = Piece.KING_B;
         board[5][7] = Piece.BISHOP_B;
@@ -155,7 +155,7 @@ public class BoardInfo {
                 for (int dx = -1; dx < 2; dx+=2) {
                     Point newPosition = new Point(position);
                     newPosition.moveBy(dx, 1);
-                    if (board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
+                    if (newPosition.x >= 0 && newPosition.x < 8 && newPosition.y < 8 && board[newPosition.x][newPosition.y] != null && board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
                         possibleMoves.add(new Move(position, newPosition));
                     }
                 }
@@ -175,7 +175,7 @@ public class BoardInfo {
                 for (int dx = -1; dx < 2; dx+=2) {
                     Point newPosition = new Point(position);
                     newPosition.moveBy(dx, -1);
-                    if (board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
+                    if (board[newPosition.x][newPosition.y] != null && board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
                         possibleMoves.add(new Move(position, newPosition));
                     }
                 }

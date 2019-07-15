@@ -6,9 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class OptionsPanel extends JPanel {
-    public OptionsPanel() {
+    public OptionsPanel(int width) {
         Dimension size = getPreferredSize();
-        size.width = 200;
+        size.width = width;
         setPreferredSize(size);
 
         setBorder(BorderFactory.createTitledBorder("Options"));

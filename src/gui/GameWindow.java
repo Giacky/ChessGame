@@ -9,14 +9,17 @@ public class GameWindow extends JFrame{
 
     public GameWindow(GameInstance gameInstance) {
         super("Chess Game");
-        setSize(1000,800);
+        int tileSize = 64;
+        int chessBoardSize = tileSize * 8;
+        int optionsPanelWidth = 250;
+        setSize(chessBoardSize+optionsPanelWidth, chessBoardSize + 24);
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         setLayout(new BorderLayout());
 
-        ChessBoardPanel chessBoardPanel = new ChessBoardPanel(gameInstance.getBoardInfo());
-        OptionsPanel optionsPanel = new OptionsPanel();
+        ChessBoardPanel chessBoardPanel = new ChessBoardPanel(gameInstance.getBoardInfo(), tileSize);
+        OptionsPanel optionsPanel = new OptionsPanel(optionsPanelWidth);
 
         Container container = getContentPane();
 
