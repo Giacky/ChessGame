@@ -1,6 +1,7 @@
 import game.GameInstance;
 import gui.GameWindow;
 import players.*;
+import players.minimax.MiniMax;
 
 import javax.swing.*;
 

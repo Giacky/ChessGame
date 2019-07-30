@@ -26,7 +26,7 @@ public class BoardInfo {
             board[i] = previousBoard[i].clone();
         }
 
-        performMove(move);
+        movePiece(move);
 
         getPlayerPieces();
     }
@@ -232,12 +232,12 @@ public class BoardInfo {
         return possibleMoves;
     }
 
-    public void performMove(Move move) {
+    public void movePiece(Move move) {
         board[move.to.x][move.to.y] = board[move.from.x][move.from.y];
         board[move.from.x][move.from.y] = null;
     }
 
-    public BoardInfo simulateMovedBoard(Move move) {
+    public BoardInfo simulateMove(Move move) {
         return new BoardInfo(this, move);
     }
 

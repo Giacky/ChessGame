@@ -23,7 +23,7 @@ public class GameInstance {
     }
 
     public void performMove(Move move) {
-        boardInfo = boardInfo.simulateMovedBoard(move);
+        boardInfo = boardInfo.simulateMove(move);
     }
 
     public void setBoardInfo(BoardInfo boardInfo) {
