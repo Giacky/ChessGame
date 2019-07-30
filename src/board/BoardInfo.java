@@ -275,7 +275,13 @@ public class BoardInfo {
         this.turnCount = turnCount;
     }
 
+    public ArrayList<Point> getWhitePieces() {
+        return whitePieces;
+    }
 
+    public ArrayList<Point> getBlackPieces() {
+        return blackPieces;
+    }
 
     private static PlayerColor oppositePlayer(PlayerColor playerColor) {
         switch (playerColor) {
