@@ -104,7 +104,7 @@ public class ChessBoardPanel extends JPanel implements MouseListener {
         for (Move move : possibleMoves) {
             paintMoveTile(move.to.x, move.to.y);
         }
-        if (board[clickedTile.x][clickedTile.y].getPlayerColor() == boardInfo.getPlayerColorTurn()) {
+        if (clickedTile != null && board[clickedTile.x][clickedTile.y].getPlayerColor() == boardInfo.getPlayerColorTurn()) {
             tiles[clickedTile.x][clickedTile.y].setBackground(new Color(0, 240, 19));
         }
 
@@ -117,16 +117,44 @@ public class ChessBoardPanel extends JPanel implements MouseListener {
 //        }
     }
 
+    private void clickedPiece() {
+        possibleMoves = boardInfo.piecePossibleMoves(clickedTile);
+    }
+
+    private void clickedMove(Move move) {
+        boardInfo.performMove(move);
+        possibleMoves.clear();
+    }
+
+    private void clickedEmpty() {
+        possibleMoves.clear();
+    }
+
+    private Move findMove(Point tilePos) {
+        for (Move m : possibleMoves) {
+            if (m.to.x == tilePos.x && m.to.y == tilePos.y) {
+                return m;
+            }
+        }
+        return null;
+    }
+
 
     @Override
     public void mousePressed(MouseEvent e) {
         clickedTile = new Point(e.getX()/squareSize, e.getY()/squareSize);
         System.out.println(boardInfo.getBoard()[clickedTile.x][clickedTile.y]);
-
         Piece pieceSelected = board[clickedTile.x][clickedTile.y];
-        if (pieceSelected != null && pieceSelected.getPlayerColor() == boardInfo.getPlayerColorTurn()) {
-            possibleMoves = boardInfo.piecePossibleMoves(clickedTile);
+        Move move = findMove(clickedTile);
+        if (move != null) { //clicked move tile
+            clickedMove(move);
+        } else if (pieceSelected == null || pieceSelected.getPlayerColor() != boardInfo.getPlayerColorTurn()) { //clicked empty tile or opposing player piece
+            clickedEmpty();
+        } else {
+            clickedPiece();
         }
+
+
         System.out.println("possible moves: " + possibleMoves.size());
         repaint();
     }

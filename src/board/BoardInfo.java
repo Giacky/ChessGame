@@ -106,7 +106,7 @@ public class BoardInfo {
                     if (dx!=0 && dy!=0) {
                         Point newPosition = new Point(position);
                         newPosition.moveBy(dx, dy);
-                        if (checkBounds(newPosition) && board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn) {
+                        if (checkBounds(newPosition) && (isEmpty(newPosition) || board[newPosition.x][newPosition.y].getPlayerColor() != playerColorTurn)) {
                             possibleMoves.add(new Move(position, newPosition));
                         }
                     }
@@ -183,7 +183,6 @@ public class BoardInfo {
                 }
             }
         }
-
         return possibleMoves;
     }
 
@@ -229,6 +228,13 @@ public class BoardInfo {
         }
         return possibleMoves;
     }
+
+    public void performMove(Move move) {
+        board[move.to.x][move.to.y] = board[move.from.x][move.from.y];
+        board[move.from.x][move.from.y] = null;
+    }
+
+
     
     private boolean checkBounds(Point point) {
         return point.x >= 0 && point.y >= 0 && point.x < 8 && point.y < 8;
@@ -237,8 +243,6 @@ public class BoardInfo {
     private boolean isEmpty(Point point) {
         return board[point.x][point.y] == null;
     }
-    
-
 
     public Piece[][] getBoard() {
         return board;
