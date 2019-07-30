@@ -18,7 +18,7 @@ public class GameWindow extends JFrame{
 
         setLayout(new BorderLayout());
 
-        ChessBoardPanel chessBoardPanel = new ChessBoardPanel(gameInstance.getBoardInfo(), tileSize);
+        ChessBoardPanel chessBoardPanel = new ChessBoardPanel(gameInstance, tileSize);
         OptionsPanel optionsPanel = new OptionsPanel(optionsPanelWidth);
 
         Container container = getContentPane();

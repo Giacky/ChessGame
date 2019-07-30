@@ -2,6 +2,7 @@ package game;
 
 import board.BoardInfo;
 import players.Player;
+import utility.Move;
 import utility.PlayerColor;
 
 public class GameInstance {
@@ -19,6 +20,10 @@ public class GameInstance {
 
     public BoardInfo getBoardInfo() {
         return boardInfo;
+    }
+
+    public void performMove(Move move) {
+        boardInfo = boardInfo.simulateMovedBoard(move);
     }
 
     public void setBoardInfo(BoardInfo boardInfo) {
