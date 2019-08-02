@@ -24,6 +24,10 @@ public class Point {
         this.y = yNew;
     }
 
+    public boolean equals(Point point) {
+        return this.x == point.x && this.y == point.y;
+    }
+
     public String toString() {
         return x + " " + y;
     }

@@ -5,7 +5,7 @@ import board.Piece;
 import utility.PlayerColor;
 import utility.Point;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 
 public class PointValue extends EvaluationFunction {
@@ -38,23 +38,23 @@ public class PointValue extends EvaluationFunction {
     public int evaluate(BoardInfo boardInfo, PlayerColor playerColor) {
         int value = 0;
         Piece[][] board = boardInfo.getBoard();
-        ArrayList<Point> playerPosition;
-        ArrayList<Point> opposingPosition;
+        LinkedList<Point> playerPositions;
+        LinkedList<Point> opposingPositions;
         if (playerColor == PlayerColor.WHITE) {
-            playerPosition = boardInfo.getWhitePieces();
-            opposingPosition = boardInfo.getBlackPieces();
+            playerPositions = boardInfo.getWhitePieces();
+            opposingPositions = boardInfo.getBlackPieces();
         } else {
-            playerPosition = boardInfo.getBlackPieces();
-            opposingPosition = boardInfo.getWhitePieces();
+            playerPositions = boardInfo.getBlackPieces();
+            opposingPositions = boardInfo.getWhitePieces();
         }
-        value += findPieceValue(board, playerPosition);
-        value -= findPieceValue(board, opposingPosition);
+        value += findPieceValue(board, playerPositions);
+        value -= findPieceValue(board, opposingPositions);
         return value;
     }
 
-    private int findPieceValue(Piece[][] board, ArrayList<Point> opposingPosition) {
+    private int findPieceValue(Piece[][] board, LinkedList<Point> positions) {
         int value = 0;
-        for (Point p : opposingPosition) {
+        for (Point p : positions) {
             Piece piece = board[p.x][p.y];
             if (piece == Piece.PAWN_W || piece == Piece.PAWN_B) {
                 value += pawnValue;
@@ -66,7 +66,7 @@ public class PointValue extends EvaluationFunction {
                 value += rookValue;
             } else if (piece == Piece.QUEEN_W || piece == Piece.QUEEN_B) {
                 value += queenValue;
-            } else if (piece == Piece.KNIGHT_W || piece == Piece.KING_B) {
+            } else if (piece == Piece.KING_W || piece == Piece.KING_B) {
                 value += knightValue;
             }
         }

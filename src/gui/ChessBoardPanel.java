@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.HashSet;
+import java.util.LinkedList;
 
 public class ChessBoardPanel extends JPanel implements MouseListener {
     private int squareSize;
@@ -20,7 +20,7 @@ public class ChessBoardPanel extends JPanel implements MouseListener {
 
     private TilePanel[][] tiles;
 
-    private HashSet<Move> possibleMoves;
+    private LinkedList<Move> possibleMoves;
     private Point clickedTile;
 
     public ChessBoardPanel(GameInstance gameInstance, int squareSize) {
@@ -50,7 +50,7 @@ public class ChessBoardPanel extends JPanel implements MouseListener {
                 }
             }
         }
-        possibleMoves = new HashSet<>();
+        possibleMoves = new LinkedList<>();
     }
 
 
@@ -75,7 +75,7 @@ public class ChessBoardPanel extends JPanel implements MouseListener {
         @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("painting...");
+//        System.out.println("painting...");
         for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 8; y++) {
                 paintBoardTile(x, y);
@@ -87,11 +87,10 @@ public class ChessBoardPanel extends JPanel implements MouseListener {
         if (clickedTile != null && board[clickedTile.x][clickedTile.y] !=null && board[clickedTile.x][clickedTile.y].getPlayerColor() == boardInfo.getPlayerColorTurn()) {
             tiles[clickedTile.x][clickedTile.y].setBackground(new Color(0, 240, 19));
         }
-
     }
 
     private void clickedPiece() {
-        possibleMoves = boardInfo.piecePossibleMoves(clickedTile);
+        possibleMoves = boardInfo.getPiecePossibleMoves(clickedTile);
     }
 
     private void clickedMove(Move move) {
@@ -123,7 +122,7 @@ public class ChessBoardPanel extends JPanel implements MouseListener {
     @Override
     public void mousePressed(MouseEvent e) {
         clickedTile = new Point(e.getX()/squareSize, e.getY()/squareSize);
-        System.out.println(boardInfo.getBoard()[clickedTile.x][clickedTile.y]);
+//        System.out.println(boardInfo.getBoard()[clickedTile.x][clickedTile.y]);
         Piece pieceSelected = board[clickedTile.x][clickedTile.y];
         Move move = findMove(clickedTile);
         if (move != null) { //clicked move tile
@@ -133,7 +132,7 @@ public class ChessBoardPanel extends JPanel implements MouseListener {
         } else {
             clickedPiece();
         }
-        System.out.println("possible moves: " + possibleMoves.size());
+//        System.out.println("possible moves: " + possibleMoves.size());
         repaint();
     }
 

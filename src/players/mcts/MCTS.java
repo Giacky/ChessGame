@@ -1,12 +1,13 @@
-package players;
+package players.mcts;
 
 import board.BoardInfo;
+import players.Player;
 import utility.Move;
 import utility.PlayerColor;
 
-public class Human extends Player{
+public class MCTS extends Player {
 
-    public Human(PlayerColor playerColor) {
+    public MCTS(PlayerColor playerColor) {
         super(playerColor);
     }
 

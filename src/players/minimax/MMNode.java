@@ -3,18 +3,18 @@ package players.minimax;
 import board.BoardInfo;
 import utility.Move;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class MMNode {
     private MMNode parent;
-    private ArrayList<MMNode> children;
+    private LinkedList<MMNode> children;
     private int depth;
 
     private BoardInfo boardInfo;
     private Move move;
     private int value;
 
-    public MMNode(MMNode parent, BoardInfo boardInfo, Move move) {
+    public MMNode(BoardInfo boardInfo, MMNode parent, Move move) {
         this.parent = parent;
         this.boardInfo = boardInfo;
         this.move = move;
@@ -22,6 +22,20 @@ public class MMNode {
             this.depth = parent.getDepth() + 1;
         } else {
             this.depth = 0;
+        }
+    }
+
+    public MMNode(int value) {
+        this.value = value;
+    }
+
+    private void makeChildren() {
+        LinkedList<Move> possibleMoves = boardInfo.getPossibleMoves();
+        children = new LinkedList<>();
+        for (Move move : possibleMoves) {
+            BoardInfo childBoard = boardInfo.performMove(move);
+            MMNode child = new MMNode(childBoard, this, move);
+            children.add(child);
         }
     }
 
@@ -34,20 +48,22 @@ public class MMNode {
         this.parent = parent;
     }
 
-    public ArrayList<MMNode> getChildren() {
+    public LinkedList<MMNode> getChildren() {
+        if (children == null) {
+            makeChildren();
+        }
         return children;
     }
 
-    public void setChildren(ArrayList<MMNode> children) {
-        this.children = children;
+    public boolean isLeaf() {
+        if (children == null) {
+            makeChildren();
+        }
+        return children.isEmpty();
     }
 
     public int getDepth() {
         return depth;
-    }
-
-    public void setDepth(int depth) {
-        this.depth = depth;
     }
 
     public BoardInfo getBoardInfo() {
@@ -72,5 +88,25 @@ public class MMNode {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public boolean lessThan(MMNode node) {
+        return value <= node.getValue();
+    }
+
+    public static MMNode max(MMNode node1, MMNode node2) {
+        if (node1.getValue() >= node2.getValue()) {
+            return node1;
+        } else {
+            return node2;
+        }
+    }
+
+    public static MMNode min(MMNode node1, MMNode node2) {
+        if (node1.getValue() <= node2.getValue()) {
+            return node1;
+        } else {
+            return node2;
+        }
     }
 }
