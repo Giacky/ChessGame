@@ -1,5 +1,6 @@
 package board;
 
+import game.GameState;
 import utility.Move;
 import utility.PlayerColor;
 import utility.Point;
@@ -14,9 +15,12 @@ public class BoardInfo {
     private LinkedList<Point> blackPieces;
     private Point king;
     private boolean inCheck;
+    private boolean checkMate;
     private LinkedList<Move> possibleMoves;
+    private GameState gameState = GameState.RUNNING;
 
     private BoardInfo(BoardInfo previousBoardInfo, Move move, boolean simulation) {
+        this.checkMate = false;
         this.playerColorTurn = oppositePlayer(previousBoardInfo.getPlayerColorTurn());
         turnCount = previousBoardInfo.getTurnCount() + 1;
         whitePieces = new LinkedList<>();
@@ -27,13 +31,15 @@ public class BoardInfo {
         for(int i = 0; i < board.length; i++) {
             board[i] = previousBoard[i].clone();
         }
-
-        movePiece(move);
+        if (move != null) {
+            movePiece(move);
+        }
 
         settingUp(simulation);
     }
 
     public BoardInfo() {
+        this.checkMate = false;
         board = new Piece[8][8];
         playerColorTurn = PlayerColor.WHITE;
         turnCount = 1;
@@ -41,40 +47,40 @@ public class BoardInfo {
         blackPieces = new LinkedList<>();
 
         //Black player
-//        board[0][0] = Piece.ROOK_B;
-//        board[1][0] = Piece.KNIGHT_B;
-//        board[2][0] = Piece.BISHOP_B;
+        board[0][0] = Piece.ROOK_B;
+        board[1][0] = Piece.KNIGHT_B;
+        board[2][0] = Piece.BISHOP_B;
         board[3][0] = Piece.QUEEN_B;
         board[4][0] = Piece.KING_B;
-//        board[5][0] = Piece.BISHOP_B;
-//        board[6][0] = Piece.KNIGHT_B;
-//        board[7][0] = Piece.ROOK_B;
-//        board[0][1] = Piece.PAWN_B;
-//        board[1][1] = Piece.PAWN_B;
-//        board[2][1] = Piece.PAWN_B;
-//        board[3][1] = Piece.PAWN_B;
-//        board[4][1] = Piece.PAWN_B;
-//        board[5][1] = Piece.PAWN_B;
-//        board[6][1] = Piece.PAWN_B;
-//        board[7][1] = Piece.PAWN_B;
+        board[5][0] = Piece.BISHOP_B;
+        board[6][0] = Piece.KNIGHT_B;
+        board[7][0] = Piece.ROOK_B;
+        board[0][1] = Piece.PAWN_B;
+        board[1][1] = Piece.PAWN_B;
+        board[2][1] = Piece.PAWN_B;
+        board[3][1] = Piece.PAWN_B;
+        board[4][1] = Piece.PAWN_B;
+        board[5][1] = Piece.PAWN_B;
+        board[6][1] = Piece.PAWN_B;
+        board[7][1] = Piece.PAWN_B;
 
         //White player
-//        board[0][7] = Piece.ROOK_W;
-//        board[1][7] = Piece.KNIGHT_W;
-//        board[2][7] = Piece.BISHOP_W;
+        board[0][7] = Piece.ROOK_W;
+        board[1][7] = Piece.KNIGHT_W;
+        board[2][7] = Piece.BISHOP_W;
         board[3][7] = Piece.QUEEN_W;
         board[4][7] = Piece.KING_W;
-//        board[5][7] = Piece.BISHOP_W;
-//        board[6][7] = Piece.KNIGHT_W;
-//        board[7][7] = Piece.ROOK_W;
-//        board[0][6] = Piece.PAWN_W;
-//        board[1][6] = Piece.PAWN_W;
-//        board[2][6] = Piece.PAWN_W;
-//        board[3][6] = Piece.PAWN_W;
-//        board[4][6] = Piece.PAWN_W;
-//        board[5][6] = Piece.PAWN_W;
-//        board[6][6] = Piece.PAWN_W;
-//        board[7][6] = Piece.PAWN_W;
+        board[5][7] = Piece.BISHOP_W;
+        board[6][7] = Piece.KNIGHT_W;
+        board[7][7] = Piece.ROOK_W;
+        board[0][6] = Piece.PAWN_W;
+        board[1][6] = Piece.PAWN_W;
+        board[2][6] = Piece.PAWN_W;
+        board[3][6] = Piece.PAWN_W;
+        board[4][6] = Piece.PAWN_W;
+        board[5][6] = Piece.PAWN_W;
+        board[6][6] = Piece.PAWN_W;
+        board[7][6] = Piece.PAWN_W;
 
         settingUp(false);
     }
@@ -82,19 +88,14 @@ public class BoardInfo {
     private void settingUp(boolean simulation) {
         savePlayerPieces();
 
-        if (playerColorTurn == PlayerColor.WHITE) {
-            king = findKing(whitePieces);
-        } else {
-            king = findKing(blackPieces);
-        }
-        this.inCheck = isInCheck();
+        king = findKing(playerColorTurn);
+
+        this.inCheck = isInCheck(playerColorTurn);
 
         if (!simulation) {
             this.possibleMoves = allPossibleMoves(playerColorTurn);
-
-            this.possibleMoves.removeIf(m -> simulateMove(m).isInCheck());
-            System.out.println("king " + king.toString());
-            System.out.println(inCheck);
+            this.possibleMoves.removeIf(m -> simulateMove(m).isInCheck(playerColorTurn));
+            updateGameState();
         }
     }
 
@@ -118,19 +119,22 @@ public class BoardInfo {
                 }
             }
         }
-        if (king== null) {
-            System.out.println("king was not found");
-        }
     }
 
-    private Point findKing(LinkedList<Point> pieces) {
-        System.out.println(pieces.size());
+    private Point findKing(PlayerColor playerColor) {
+        LinkedList<Point> pieces;
+        if (playerColor == PlayerColor.WHITE) {
+            pieces = whitePieces;
+        } else {
+            pieces = blackPieces;
+        }
         for (Point p : pieces) {
             if (board[p.x][p.y] == Piece.KING_W || board[p.x][p.y] == Piece.KING_B) {
                 return p;
             }
         }
-        throw new RuntimeException("King not found");
+//        throw new RuntimeException("King not found");
+        return null;
     }
 
 
@@ -303,30 +307,34 @@ public class BoardInfo {
         return board[point.x][point.y] == null;
     }
 
-    private boolean isInCheck() {
-        LinkedList<Move> opposingPossibleMoves = allPossibleMoves(oppositePlayer(playerColorTurn));
+    private boolean isInCheck(PlayerColor playerColor) {
+        LinkedList<Move> opposingPossibleMoves = allPossibleMoves(oppositePlayer(playerColor));
+        switch (playerColor) {
+            case WHITE:
+        }
+        Point playerKing = findKing(playerColor);
         for (Move move : opposingPossibleMoves) {
-//            System.out.println(move.toString());
-//            if (move.to.equals(king)) {
-//                System.out.println("check");
-//            }
-//            String lol = "";
-//            if (king.equals(move.to)) {
-//                System.out.println("jnfdkmjsfkjnksjfnkjsdnfsdfsdfsdd");
-//            }
-//            System.out.println("king: " + king.toString() + "   to: " + move.to.toString() + " " + lol);
-            if (king == null ) {
-                System.out.println("hfj");
-            }
-            if (king.equals(move.to)) {
+            if (playerKing == null || playerKing.equals(move.to)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isCheckmate() {
-        return possibleMoves.size() == 0;
+    private void updateGameState() {
+        if (possibleMoves.size() == 0) {
+            switch (playerColorTurn) {
+                case WHITE:
+                    gameState =  GameState.WHITEWON;
+                case BLACK:
+                    gameState =  GameState.BLACKWON;
+            }
+        }
+        gameState =  GameState.RUNNING;
+    }
+
+    public GameState getGameState() {
+        return gameState;
     }
 
     public Piece[][] getBoard() {
@@ -365,7 +373,7 @@ public class BoardInfo {
     }
 
 
-    private static PlayerColor oppositePlayer(PlayerColor playerColor) {
+    public static PlayerColor oppositePlayer(PlayerColor playerColor) {
         switch (playerColor) {
             case WHITE:
                 return PlayerColor.BLACK;

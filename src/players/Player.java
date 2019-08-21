@@ -7,6 +7,7 @@ import utility.PlayerColor;
 
 public abstract class Player {
     protected PlayerColor playerColor;
+    protected PlayerType playerType;
 
 
     public Player(PlayerColor playerColor) {
@@ -15,7 +16,7 @@ public abstract class Player {
 
 
 
-    public abstract Move makeMove(BoardInfo boardInfo);
+    public abstract Move bestMove(BoardInfo boardInfo);
 
 
     public PlayerColor getPlayerColor() {
@@ -26,5 +27,7 @@ public abstract class Player {
         this.playerColor = playerColor;
     }
 
-
+    public PlayerType getPlayerType() {
+        return playerType;
+    }
 }

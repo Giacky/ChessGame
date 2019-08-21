@@ -1,20 +1,27 @@
+import controller.GameController;
 import game.GameInstance;
-import gui.GameWindow;
+import view.GameView;
 import players.*;
-import players.minimax.MiniMax;
-import utility.Point;
 
 import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
 
 public class Chess {
     public static void main(String[] args) {
-        GameInstance gameInstance = new GameInstance(PlayerType.HUMAN, PlayerType.MINIMAX);
+        final GameView[] gameView = new GameView[1];
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                @Override
+                public void run() {
+                    gameView[0] = new GameView();
+                }
+            });
+        } catch(InvocationTargetException | InterruptedException e) {
+            e.printStackTrace();
+        }
 
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                GameWindow gameWindow = new GameWindow(gameInstance);
-            }
-        });
+        GameInstance gameInstance = new GameInstance(PlayerType.HUMAN, PlayerType.MINIMAX);
+        GameController gameController = new GameController(gameView[0], gameInstance);
+        gameInstance.gameLoop();
     }
 }

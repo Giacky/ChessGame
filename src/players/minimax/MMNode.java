@@ -23,6 +23,10 @@ public class MMNode {
         } else {
             this.depth = 0;
         }
+        System.out.println("new node at " + depth);
+//        if (depth == 3) {
+//            throw new RuntimeException("ifhuaufad");
+//        }
     }
 
     public MMNode(int value) {
@@ -56,10 +60,10 @@ public class MMNode {
     }
 
     public boolean isLeaf() {
-        if (children == null) {
-            makeChildren();
-        }
-        return children.isEmpty();
+//        if (children == null) {
+//            makeChildren();
+//        }
+        return boardInfo.getPossibleMoves().isEmpty();
     }
 
     public int getDepth() {

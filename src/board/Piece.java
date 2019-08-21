@@ -29,33 +29,16 @@ public enum Piece {
     
     private PlayerColor playerColor;
     private String pieceName;
-    private BufferedImage bufferedImage;
     private ImageIcon imageIcon;
-    private Image image;
 
     Piece(PlayerColor playerColor, String pieceName, String imageName) {
         this.playerColor = playerColor;
         this.pieceName = pieceName;
-        try {
-            this.bufferedImage = ImageIO.read(new File(path + imageName));
-        } catch (IOException e) {
-            System.out.println("Problem loading image");
-            e.printStackTrace();
-        }
         this.imageIcon = new ImageIcon(path + imageName);
-        this.image = imageIcon.getImage();
     }
 
     public PlayerColor getPlayerColor() {
         return playerColor;
-    }
-
-    public BufferedImage getBufferedImage() {
-        return bufferedImage;
-    }
-
-    public Image getImage() {
-        return image;
     }
 
     public ImageIcon getImageIcon() {

@@ -12,7 +12,7 @@ public class MCTS extends Player {
     }
 
     @Override
-    public Move makeMove(BoardInfo boardInfo) {
+    public Move bestMove(BoardInfo boardInfo) {
         return null;
     }
 }

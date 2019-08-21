@@ -1,5 +1,8 @@
 package utility;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 public class Move {
     public Point from;
     public Point to;
@@ -22,6 +25,14 @@ public class Move {
 
     public String toString() {
         return "From: " + from.toString() + "   to: " + to.toString();
+    }
+
+    public static LinkedList<Point> moveToPoint(LinkedList<Move> moves) {
+        LinkedList<Point> points = new LinkedList<>();
+        for (Move move : moves) {
+            points.add(move.to);
+        }
+        return points;
     }
 
 }
