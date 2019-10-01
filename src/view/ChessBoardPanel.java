@@ -2,6 +2,7 @@ package view;
 
 import board.Piece;
 import utility.Move;
+import utility.Point;
 
 import javax.swing.*;
 import java.awt.*;
@@ -82,7 +83,18 @@ public class ChessBoardPanel extends JPanel {
     }
 
     public void setMovedPiece(Move move) {
+        if (move == null) {
+            System.out.println("move is null");
+        }
+        if (tiles == null) {
+            System.out.println("tiles is null");
+        }
+
         tiles[move.to.x][move.to.y].substitutePieceLabel(tiles[move.from.x][move.from.y]);
+    }
+
+    public void changeIcon(Point position, Piece piece) {
+        tiles[position.x][position.y].addPieceIcon(piece.getImageIcon());
     }
 
     public void clickedEmpty() {

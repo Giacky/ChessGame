@@ -1,6 +1,9 @@
 package game;
 
 import board.BoardInfo;
+import board.Piece;
+import players.evaluationFunctions.Mobility;
+import players.evaluationFunctions.PointValuePreset;
 import utility.Point;
 import view.ChessBoardPanel;
 import players.Human;
@@ -36,7 +39,8 @@ public class GameInstance {
             case HUMAN:
                return new Human(playerColor);
             case MINIMAX:
-               return new MiniMax(playerColor, new PointValue(), 3);
+               return new MiniMax(playerColor, new PointValue(PointValuePreset.KAUFMAN2012), 3);
+//                return new MiniMax(playerColor, new Mobility(), 3);
             case MCTS:
                 return new MCTS(playerColor);
             default:
@@ -58,14 +62,11 @@ public class GameInstance {
                         e.printStackTrace();
                     }
                 }
-
             } else {
                 Move move = currentPlayer.bestMove(boardInfo);
                 performMove(move);
-
                 System.out.println("Move: " + move.toString());
             }
-
             currentPlayer = oppositePlayer(currentPlayer);
         }
         System.out.println("Ended");
@@ -75,6 +76,13 @@ public class GameInstance {
     public void performMove(Move move) {
         boardInfo = boardInfo.performMove(move);
         chessBoardPanel.setMovedPiece(move);
+        if (move.isQueening()) {
+            if (currentPlayer.getPlayerColor() == PlayerColor.WHITE) {
+                chessBoardPanel.changeIcon(move.to, Piece.QUEEN_W);
+            } else {
+                chessBoardPanel.changeIcon(move.to, Piece.QUEEN_B);
+            }
+        }
     }
 
     public BoardInfo getBoardInfo() {

@@ -33,6 +33,13 @@ public class BoardInfo {
         }
         if (move != null) {
             movePiece(move);
+            if (move.isQueening()) {
+                if (playerColorTurn == PlayerColor.WHITE) {
+                    board[move.to.x][move.to.y] = Piece.QUEEN_W;
+                } else {
+                    board[move.to.x][move.to.y] = Piece.QUEEN_B;
+                }
+            }
         }
 
         settingUp(simulation);
@@ -193,7 +200,9 @@ public class BoardInfo {
                     Point newPosition = new Point(position);
                     newPosition.moveBy(0, dy);
                     if (checkBounds(newPosition) && isEmpty(newPosition)) {
-                        possibleMoves.add(new Move(position, newPosition));
+                        Move move = new Move(position, newPosition);
+                        move.setQueening(queening(move));
+                        possibleMoves.add(move);
                     }  else {
                         break;
                     }
@@ -203,7 +212,9 @@ public class BoardInfo {
                     Point newPosition = new Point(position);
                     newPosition.moveBy(dx, 1);
                     if (checkBounds(newPosition) && !isEmpty(newPosition) && board[newPosition.x][newPosition.y].getPlayerColor() != playerColor) {
-                        possibleMoves.add(new Move(position, newPosition, true)); //Wrong
+                        Move move = new Move(position, newPosition, true);
+                        move.setQueening(queening(move));
+                        possibleMoves.add(move);
                     }
                 }
             } else {
@@ -215,7 +226,9 @@ public class BoardInfo {
                     Point newPosition = new Point(position);
                     newPosition.moveBy(0, dy);
                     if (checkBounds(newPosition) && isEmpty(newPosition)) {
-                        possibleMoves.add(new Move(position, newPosition));
+                        Move move = new Move(position, newPosition);
+                        move.setQueening(queening(move));
+                        possibleMoves.add(move);
                     } else {
                         break;
                     }
@@ -225,12 +238,18 @@ public class BoardInfo {
                     Point newPosition = new Point(position);
                     newPosition.moveBy(dx, -1);
                     if (checkBounds(newPosition) && !isEmpty(newPosition) && board[newPosition.x][newPosition.y].getPlayerColor() != playerColor) {
-                        possibleMoves.add(new Move(position, newPosition, true));
+                        Move move = new Move(position, newPosition, true);
+                        move.setQueening(queening(move));
+                        possibleMoves.add(move);
                     }
                 }
             }
         }
         return possibleMoves;
+    }
+
+    private boolean queening(Move move) {
+        return (board[move.from.x][move.from.y].getPlayerColor() == PlayerColor.WHITE && move.to.y == 0) || (board[move.from.x][move.from.y].getPlayerColor() == PlayerColor.BLACK && move.to.y == 7);
     }
 
     private LinkedList<Move> allPossibleMoves(PlayerColor playerColor) {

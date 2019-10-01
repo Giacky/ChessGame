@@ -3,6 +3,8 @@ package players.minimax;
 import board.BoardInfo;
 import utility.Move;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 
 public class MMNode {
@@ -23,7 +25,7 @@ public class MMNode {
         } else {
             this.depth = 0;
         }
-        System.out.println("new node at " + depth);
+//        System.out.println("new node at " + depth);
 //        if (depth == 3) {
 //            throw new RuntimeException("ifhuaufad");
 //        }
@@ -41,6 +43,7 @@ public class MMNode {
             MMNode child = new MMNode(childBoard, this, move);
             children.add(child);
         }
+        Collections.shuffle(children);
     }
 
 

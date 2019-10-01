@@ -7,6 +7,7 @@ public class Move {
     public Point from;
     public Point to;
     private boolean capture = false;
+    private boolean queening = false;
 
     public Move(Point from, Point to) {
         this.from = from;
@@ -21,6 +22,14 @@ public class Move {
 
     public boolean isCapture() {
         return capture;
+    }
+
+    public void setQueening(boolean queening) {
+        this.queening = queening;
+    }
+
+    public boolean isQueening() {
+        return queening;
     }
 
     public String toString() {

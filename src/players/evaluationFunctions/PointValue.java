@@ -49,6 +49,11 @@ public class PointValue extends EvaluationFunction {
         }
         value += findPieceValue(board, playerPositions);
         value -= findPieceValue(board, opposingPositions);
+//        if (boardInfo.getPlayerColorTurn() == playerColor) {
+//            value += boardInfo.getPossibleMoves().size();
+//        } else {
+//            value -= boardInfo.getPossibleMoves().size();
+//        }
         return value;
     }
 

@@ -17,7 +17,7 @@ public class GameController implements MouseListener {
     private GameView gameView;
     private ChessBoardPanel chessBoardPanel;
     private GameInstance gameInstance;
-    private LinkedList<Move> possibleMoves;
+    private LinkedList<Move> possibleMoves = new LinkedList<>();
     private final Object userInput = new Object();
 
     private int tileSize;
@@ -32,7 +32,6 @@ public class GameController implements MouseListener {
         this.chessBoardPanel.addMouseListener(this);
         this.chessBoardPanel.drawPieces(gameInstance.getBoardInfo().getBoard());
         this.chessBoardPanel.repaint();
-        System.out.println("called");
     }
     
     @Override

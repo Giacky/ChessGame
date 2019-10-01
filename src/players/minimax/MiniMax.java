@@ -33,41 +33,124 @@ public class MiniMax extends Player {
 
     @Override
     public Move bestMove(BoardInfo boardInfo) {
-        return minimax(new MMNode(boardInfo, null, null), isMaximisingPlayer, new MMNode(Integer.MIN_VALUE), new MMNode(Integer.MAX_VALUE)).getMove();
+        MMNode root = new MMNode(boardInfo, null, null);
+//        int bestValue = minimax(root, isMaximisingPlayer, new MMNode(Integer.MIN_VALUE), new MMNode(Integer.MAX_VALUE)).getValue();
+        MoveValue moveValue = minimax(root, isMaximisingPlayer, new MoveValue(null, Integer.MIN_VALUE), new MoveValue(null, Integer.MAX_VALUE), null);
+//        for (MMNode node : root.getChildren()) {
+//            if (node.getValue() == bestValue) {
+//                return node.getMove();
+//            }
+//        }
+//        throw new RuntimeException("Best node not found");
+        return moveValue.move;
     }
 
-    public MMNode minimax(MMNode node, boolean isMaximisingPlayer, MMNode alpha, MMNode beta) {
-        System.out.println("called");
+//    private MMNode minimax(MMNode node, boolean isMaximisingPlayer, MMNode alpha, MMNode beta) {
+//        if (node.isLeaf() || node.getDepth() >= maxDepth) {
+//            node.setValue(evaluationFunction.evaluate(node.getBoardInfo(), playerColor));
+//            return node;
+//        }
+//        System.out.println("node to expand " + node.getDepth());
+//        if (isMaximisingPlayer) {
+//            MMNode bestNode = new MMNode(Integer.MIN_VALUE);
+//            LinkedList<MMNode> children = node.getChildren();
+//            for (MMNode child : children) {
+//                MMNode tempNode = minimax(child, false, alpha, beta);
+//                bestNode = MMNode.max(bestNode, tempNode);
+//                alpha = MMNode.max(alpha, bestNode);
+//                if (beta.lessThan(alpha)) {
+//                    break;
+//                }
+//            }
+//            return bestNode;
+//        } else {
+//            MMNode bestNode = new MMNode(Integer.MAX_VALUE);
+//            LinkedList<MMNode> children = node.getChildren();
+//            for (MMNode child : children) {
+//                MMNode tempNode = minimax(child, true, alpha, beta);
+//                bestNode = MMNode.min(bestNode, tempNode);
+//                beta = MMNode.min(beta, bestNode);
+//                if (beta.lessThan(alpha)) {
+//                    break;
+//                }
+//            }
+//            return bestNode;
+//        }
+//    }
+
+
+
+    private MoveValue minimax(MMNode node, boolean isMaximisingPlayer, MoveValue alpha, MoveValue beta, Move move) {
         if (node.isLeaf() || node.getDepth() >= maxDepth) {
-            node.setValue(evaluationFunction.evaluate(node.getBoardInfo(), playerColor));
-            return node;
+            int value = evaluationFunction.evaluate(node.getBoardInfo(), playerColor);
+            return new MoveValue(move, value);
         }
-        System.out.println("node to expand " + node.getDepth());
+//        System.out.println("node to expand " + node.getDepth());
         if (isMaximisingPlayer) {
-            MMNode bestNode = new MMNode(Integer.MIN_VALUE);
+            MoveValue bestMoveValue = new MoveValue(null, Integer.MIN_VALUE);
             LinkedList<MMNode> children = node.getChildren();
             for (MMNode child : children) {
-                MMNode tempNode = minimax(child, false, alpha, beta);
-                bestNode = MMNode.max(bestNode, tempNode);
-                alpha = MMNode.max(alpha, bestNode);
+                if (node.getParent() == null) {
+                    move = child.getMove();
+                }
+                MoveValue moveValue = minimax(child, false, alpha, beta, move);
+                bestMoveValue = MoveValue.max(bestMoveValue, moveValue);
+                alpha = MoveValue.max(alpha, bestMoveValue);
                 if (beta.lessThan(alpha)) {
                     break;
                 }
             }
-            return bestNode;
+            return bestMoveValue;
         } else {
-            MMNode bestNode = new MMNode(Integer.MAX_VALUE);
+            MoveValue bestMoveValue = new MoveValue(null, Integer.MAX_VALUE);
             LinkedList<MMNode> children = node.getChildren();
             for (MMNode child : children) {
-                MMNode tempNode = minimax(child, true, alpha, beta);
-                bestNode = MMNode.min(bestNode, tempNode);
-                beta = MMNode.min(beta, bestNode);
+                if (move == null) {
+                    move = child.getMove();
+                }
+                MoveValue moveValue = minimax(child, true, alpha, beta, move);
+                bestMoveValue = MoveValue.min(bestMoveValue, moveValue);
+                beta = MoveValue.min(beta, bestMoveValue);
                 if (beta.lessThan(alpha)) {
                     break;
                 }
             }
-            return bestNode;
+            return bestMoveValue;
         }
     }
+
+
+
+//    private int minimax(MMNode node, boolean isMaximisingPlayer, int alpha, int beta) {
+//        if (node.isLeaf() || node.getDepth() >= maxDepth) {
+//            return evaluationFunction.evaluate(node.getBoardInfo(), playerColor);
+//        }
+//        System.out.println("node to expand " + node.getDepth());
+//        if (isMaximisingPlayer) {
+//            int best = Integer.MIN_VALUE;
+//            LinkedList<MMNode> children = node.getChildren();
+//            for (MMNode child : children) {
+//                int value = minimax(child, false, alpha, beta);
+//                best = Math.max(best, value);
+//                alpha = Math.max(alpha, best);
+//                if (beta <= alpha) {
+//                    break;
+//                }
+//            }
+//            return best;
+//        } else {
+//            int best = Integer.MAX_VALUE;
+//            LinkedList<MMNode> children = node.getChildren();
+//            for (MMNode child : children) {
+//                int value = minimax(child, true, alpha, beta);
+//                best = Math.min(best, value);
+//                beta = Math.min(beta, best);
+//                if (beta <= alpha) {
+//                    break;
+//                }
+//            }
+//            return best;
+//        }
+//    }
 
 }
