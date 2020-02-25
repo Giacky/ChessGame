@@ -3,7 +3,6 @@ package players.minimax;
 import board.BoardInfo;
 import utility.Move;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 

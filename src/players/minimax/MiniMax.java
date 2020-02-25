@@ -78,8 +78,6 @@ public class MiniMax extends Player {
 //        }
 //    }
 
-
-
     private MoveValue minimax(MMNode node, boolean isMaximisingPlayer, MoveValue alpha, MoveValue beta, Move move) {
         if (node.isLeaf() || node.getDepth() >= maxDepth) {
             int value = evaluationFunction.evaluate(node.getBoardInfo(), playerColor);
