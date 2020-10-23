@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="836b7b72-9cc4-4b02-8ad0-72a0954bf11b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/players/minimax/MMNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/players/minimax/MMNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/players/minimax/MiniMax.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/players/minimax/MiniMax.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -126,6 +124,8 @@
       <workItem from="1576164155789" duration="1775000" />
       <workItem from="1576661144824" duration="25000" />
       <workItem from="1577625089501" duration="530000" />
+      <workItem from="1583791202825" duration="65000" />
+      <workItem from="1584134280794" duration="102000" />
     </task>
     <servers />
   </component>
